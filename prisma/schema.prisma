@@ -12,13 +12,18 @@ datasource db {
   provider = "postgresql"
 }
 
-model Student{
-  email String @id
-  name String
-  city String
-}
+model User {
 
-model Course{
-  id String @id
-  name String
+    id String @id @default(uuid()) //auto-generated unique identifier
+    email String @unique //one email per user
+    phone String? @unique //optional phone number
+    firstName String 
+    lastName String
+    password String //hashed password
+    role String @default("CUSTOMER") //user role, default is "CUSTOMER" 
+    status String @default("ACTIVE") //ACTIVE / Banned / Inactive
+    createdAt DateTime @default(now()) //timestamp of user creation
+    lastLogin DateTime? //timestamp of last login, optional
+    privileges String[] @default([]) //array of privileges, default is empty ["Create", "Read", "Update", "Delete"]
+    //gender, emailVerified, phoneVerified
 }
