@@ -15,6 +15,9 @@ export async function POST(request: NextRequest) { // Handle the POST request
             {
                 message: "Email is required", // Return a JSON response indicating that the email is required
             },
+            {
+                status: 422, // Set the response status to 422 (Unprocessable Entity)
+            }
         )
    }
 
@@ -33,6 +36,21 @@ export async function POST(request: NextRequest) { // Handle the POST request
         return NextResponse.json(
             {
                 message: "User not found", // Return a JSON response indicating that the user was not found
+            },
+            {
+                status: 404, // Set the response status to 404 (Not Found)
+            }
+        )
+   }
+
+   if(user.status != "ACTIVE"){
+
+        return NextResponse.json(
+            {
+                message: "User is not active", // Return a JSON response indicating that the user is not active
+            },
+            {
+                status: 403, // Set the response status to 403 (Forbidden)
             }
         )
    }
@@ -40,6 +58,17 @@ export async function POST(request: NextRequest) { // Handle the POST request
    const isPasswordValid = await compare(body.password, user.password); // Compare the provided password with the stored hashed password
 
    if(isPasswordValid){
+
+        await prisma.user.update( // Update the user's last login time in the database
+            {
+                where: {
+                    id: user.id, // Update the user with the matching ID
+                },
+                data: {
+                    lastLogin: new Date(), // Update the last login time
+                }
+            }
+        );
 
         const secretText = process.env.JOSE_SECRET; // Retrieve the secret text from environment variables
 
@@ -78,6 +107,9 @@ export async function POST(request: NextRequest) { // Handle the POST request
         return NextResponse.json(
             {
                 message: "Invalid password", // Return a JSON response indicating that the provided password is invalid
+            },
+            {
+                status: 401, // Set the response status to 401 (Unauthorized)
             }
         )
    }
