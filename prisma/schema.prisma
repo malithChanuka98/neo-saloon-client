@@ -24,6 +24,6 @@ model User {
     status String @default("ACTIVE") //ACTIVE / Banned / Inactive
     createdAt DateTime @default(now()) //timestamp of user creation
     lastLogin DateTime? //timestamp of last login, optional
-    privileges String[] @default([]) //array of privileges, default is empty ["Create", "Read", "Update", "Delete"]
+    privileges String[] @default([]) //array of privileges, default is empty ["users:add","users:edit","users:read"]
     //gender, emailVerified, phoneVerified
 }

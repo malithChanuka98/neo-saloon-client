@@ -75,6 +75,7 @@ export async function POST(request: NextRequest) { // Handle the POST request
         const secret = new TextEncoder().encode(secretText); // Encode the secret text as a Uint8Array
 
         const token = await new jose.SignJWT({
+            id: user.id, // Include the user's ID in the JWT payload
             email: user.email, // Include the user's email in the JWT payload
             firstName: user.firstName, // Include the user's first name in the JWT payload
             lastName: user.lastName, // Include the user's last name in the JWT payload
