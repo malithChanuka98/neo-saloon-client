@@ -25,5 +25,6 @@ model User {
     createdAt DateTime @default(now()) //timestamp of user creation
     lastLogin DateTime? //timestamp of last login, optional
     privileges String[] @default([]) //array of privileges, default is empty ["users:add","users:edit","users:read"]
+    profileImage String @default("/images/default-profile.png") //optional profile image URL
     //gender, emailVerified, phoneVerified
 }

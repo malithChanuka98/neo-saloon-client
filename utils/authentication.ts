@@ -4,7 +4,7 @@ import { RequestUserType } from "@/types/requestUser";
 
 export async function getUser(request: NextRequest) : Promise<RequestUserType | null> {
     
-    const loginToken = request.cookies.get("loginToken")?.value; // Retrieve the login token from the request cookies
+    const loginToken = request.cookies.get("login-token")?.value // Retrieve the login token from the request cookies
 
     const secretText = process.env.JOSE_SECRET; // Retrieve the secret text from environment variables
 
@@ -46,7 +46,7 @@ export async function isPrivileged(request: NextRequest, privilege: string) : Pr
         return true; // If the user has the required privilege, they are privileged
 
     }else {
-
+  
         return false; // If the user does not have the required privilege, they are not privileged
 
     }
